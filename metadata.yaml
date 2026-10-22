@@ -1,0 +1,5 @@
+name: mc_manager
+display_name: MC 服务器管理
+desc: 通过 RCON 远程管理 Minecraft 服务器（简幻欢面板服）。支持 /list 查看在线玩家、/say 广播、/op 授权（仅管理员）、/stop 关服（仅管理员）。RCON 连接信息在面板「插件 → mc_manager → 配置」里填写。
+version: 1.1.0
+author: Kuwino

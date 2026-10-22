@@ -1,0 +1,21 @@
+{
+  "rcon_host": {
+    "description": "RCON 服务器地址",
+    "type": "string",
+    "default": "play.simpfun.cn",
+    "hint": "简幻欢直连入口域名，一般是 play.simpfun.cn"
+  },
+  "rcon_port": {
+    "description": "RCON 端口",
+    "type": "int",
+    "default": 19166,
+    "hint": "简幻欢「实例端口」页「新建端口」分配的端口"
+  },
+  "rcon_password": {
+    "description": "RCON 密码",
+    "type": "string",
+    "default": "",
+    "secret": true,
+    "hint": "server.properties 里的 rcon.password，面板会以密码框遮罩显示"
+  }
+}
