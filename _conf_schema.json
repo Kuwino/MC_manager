@@ -8,8 +8,8 @@
   "rcon_port": {
     "description": "RCON 端口",
     "type": "int",
-    "default": 19166,
-    "hint": "简幻欢「实例端口」页「新建端口」分配的端口"
+    "default": 0,
+    "hint": "简幻欢「实例端口」页随机分配的端口，每个人不同，需自行填写"
   },
   "rcon_password": {
     "description": "RCON 密码",

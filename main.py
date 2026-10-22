@@ -20,7 +20,7 @@ from astrbot.api.event import filter, AstrMessageEvent
 from mcrcon import MCRcon
 
 
-@register("mc_manager", "Kuwino", "Minecraft 服务器管理插件", "1.1.0")
+@register("mc_manager", "Kuwino", "Minecraft 服务器管理插件", "1.1.1")
 class McManager(Star):
     """通过 RCON 管理 Minecraft 服务器。"""
 
@@ -31,11 +31,13 @@ class McManager(Star):
     def rcon(self, command: str) -> str:
         """执行一条 RCON 命令并返回结果。"""
         host = self.config.get("rcon_host", "play.simpfun.cn")
-        port = self.config.get("rcon_port", 19166)
+        port = self.config.get("rcon_port", 0)
         password = self.config.get("rcon_password", "")
         if not password:
             raise RuntimeError("未配置 RCON 密码，请在面板「插件 → mc_manager → 配置」里填写")
-        with MCRcon(host, password, port=port) as mcr:
+        if not port:
+            raise RuntimeError("未配置 RCON 端口，请在面板「插件 → mc_manager → 配置」里填写")
+        with MCRcon(host, password, port=int(port)) as mcr:
             return mcr.command(command)
 
     @filter.command("list")
