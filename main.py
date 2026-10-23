@@ -20,7 +20,7 @@ from astrbot.api.event import filter, AstrMessageEvent
 from mcrcon import MCRcon
 
 
-@register("mc_manager", "Kuwino", "Minecraft 服务器管理插件", "1.1.1")
+@register("mc_manager", "Kuwino", "Minecraft 服务器管理插件", "1.2.0")
 class McManager(Star):
     """通过 RCON 管理 Minecraft 服务器。"""
 
@@ -41,23 +41,34 @@ class McManager(Star):
             return mcr.command(command)
 
     @filter.command("list")
+    @filter.llm_tool(name="mc_list")
     async def cmd_list(self, event: AstrMessageEvent):
-        """查看在线玩家。"""
+        """查看 Minecraft 服务器当前在线玩家和人数。
+
+        Args:
+        """
         try:
             yield event.plain_result("在线玩家：" + self.rcon("list"))
         except Exception as e:
             yield event.plain_result("查询失败：" + str(e))
 
     @filter.command("say")
-    async def cmd_say(self, event: AstrMessageEvent):
-        """向服务器广播一句话：/say 内容"""
-        parts = event.message_str.split(" ", 1)
-        if len(parts) < 2:
-            yield event.plain_result("用法：/say <内容>")
-            return
+    @filter.llm_tool(name="mc_say")
+    async def cmd_say(self, event: AstrMessageEvent, content: str = ""):
+        """向 Minecraft 服务器广播一句话。
+
+        Args:
+            content(string): 要广播的内容
+        """
+        if not content:
+            parts = event.message_str.split(" ", 1)
+            if len(parts) < 2:
+                yield event.plain_result("用法：/say <内容>")
+                return
+            content = parts[1]
         try:
-            self.rcon("say " + parts[1])
-            yield event.plain_result("已广播：" + parts[1])
+            self.rcon("say " + content)
+            yield event.plain_result("已广播：" + content)
         except Exception as e:
             yield event.plain_result("广播失败：" + str(e))
 
